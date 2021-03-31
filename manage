@@ -1,0 +1,22 @@
+#!/usr/bin/sh
+
+PROJECT_DIR=$(dirname "$0")
+
+if [ ! -d ${PROJECT_DIR}/env ] ; then
+    echo "Can't find site-packages directory, did you setup the env dir?  Try:"
+    echo
+    echo "python3 -m venv env/"
+    exit 1
+fi
+
+if [ ! -f ${PROJECT_DIR}/env/bin/django-admin ] ; then
+    echo "Can't find django-admin script, did you install the requirements?  Try:"
+    echo
+    echo "env/bin/pip install -r requirements.txt"
+    exit 1
+fi
+
+
+export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-rimc.settings.dev}
+export PYTHONPATH=$PROJECT_DIR
+${PROJECT_DIR}/env/bin/django-admin "$@"
